@@ -9,7 +9,8 @@ public class Ex02DiApplication {
     public static void main(String[] args) {
         SpringApplication.run(Ex02DiApplication.class, args);
 
-        // container 생성
+        // ApplicationContext container 생성 -> Config.class를 등록한다
+        // 스프링 MVC 형태
         //ApplicationContext context = new AnnotationConfigApplicationContext((Config.class));
 
 

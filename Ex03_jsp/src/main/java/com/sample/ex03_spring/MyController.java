@@ -3,7 +3,9 @@ package com.sample.ex03_spring;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -55,8 +57,35 @@ public class MyController {
     // index?name=여진홍
     public String index(HttpServletRequest request, Model model) { // model에 뿌려주겠다
         String name = request.getParameter("name");
+        String nickname = request.getParameter("nickname");
 
         model.addAttribute("name", name); // 여진홍이 출력이됨
+        model.addAttribute("nickname", nickname);
         return "index"; // index라는 파일명
+    }
+
+    @RequestMapping("/view1")
+    public String view1( @RequestParam("id") String id,
+                         @RequestParam("name") String name,
+                         Model model) {
+       model.addAttribute("id", id);
+       model.addAttribute("name", name);
+        return "view1";
+    }
+
+    @RequestMapping("/view2")
+    public String view2( MemberDto member, Model model) {
+
+        model.addAttribute("id", member.getId()); // memberDto에서 getId()가져옴
+        model.addAttribute("name", member.getName());
+        return "view2";
+    }
+
+    @RequestMapping("/view3/{studentId}/{name}")
+    public String view3(@PathVariable("studentId") String studentId, @PathVariable("name") String name, Model model) {
+        model.addAttribute("id", studentId);
+        model.addAttribute("name", name);
+
+        return "view3";
     }
 }

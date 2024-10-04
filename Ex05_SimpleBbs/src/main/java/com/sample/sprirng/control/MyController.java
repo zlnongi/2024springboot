@@ -27,7 +27,7 @@ public class MyController {
     @RequestMapping("/list")
     public String listPage(Model model) {
         model.addAttribute("lists", dao.listDao()); // dao.listDao() -> DB랑 연결되어있음
-        model.addAttribute("count", dao.countDao());
+        model.addAttribute("count", dao.countDao()); // dao.countDao()
         return "list";
     }
 

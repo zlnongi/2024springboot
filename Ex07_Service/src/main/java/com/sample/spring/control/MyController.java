@@ -1,6 +1,7 @@
 package com.sample.spring.control;
 
 import com.sample.spring.dao.ISimpleBbsDao;
+import com.sample.spring.service.ISimpleBbsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MyController {
 
-    @Autowired
-    ISimpleBbsDao dao;
+ //   @Autowired
+ //   ISimpleBbsDao dao;
 
+    @Autowired
+    ISimpleBbsService bbs;
 
     @RequestMapping("/")
     public String root() {
@@ -21,7 +24,7 @@ public class MyController {
 
     @RequestMapping("/list")
     public String listPage(Model model) {
-        model.addAttribute("lists", dao.listDao());
+        model.addAttribute("lists", bbs.list());
         //model.addAttribute("count", dao.countDao());
         return "list";
     }
@@ -29,7 +32,7 @@ public class MyController {
     @RequestMapping("/view") // view?id=1
     public String view(HttpServletRequest request, Model model) {
         String sId = request.getParameter("id");
-        model.addAttribute("dto", dao.viewDao(sId));
+        model.addAttribute("dto", bbs.view(sId));
         return "view";
     }
 
@@ -41,7 +44,7 @@ public class MyController {
 
     @RequestMapping("/write")
     public String write(HttpServletRequest request) {
-        dao.writeDao(request.getParameter("writer"),request.getParameter("title"), request.getParameter("content") );
+        bbs.write(request.getParameter("writer"),request.getParameter("title"), request.getParameter("content") );
         // writeForm에 작성되어있는 값을 넘겨줘야함
         // 0과 1이 나옴 data가 들어갔을때 & data가 들어가지 않을때
         return "redirect:/list";
@@ -49,7 +52,7 @@ public class MyController {
 
     @RequestMapping("/delete")
     public String delete(HttpServletRequest request) { // 0값으로 들어옴
-        dao.delete(request.getParameter("id")); // id값을 request통해서 가져옴
+        bbs.delete(request.getParameter("id")); // id값을 request통해서 가져옴
         return "redirect:/list";
     }
 }

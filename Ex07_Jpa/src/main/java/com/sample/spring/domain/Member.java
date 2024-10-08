@@ -10,17 +10,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="test1")
 
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // null값 사용하지 않으므로 long 사용 가능
 
     @Column(length=100)
     private String name;
 
-    @Column(name="uemail")
+
     private String email;
     private LocalDate createDate;
 

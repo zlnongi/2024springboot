@@ -26,6 +26,11 @@ public class ReviewApi {
         reviewService.deleteReview(reviewId);
     }
 
+    // RequestBody : 요청할때 body에다 넣어서 (보통 json) 요청받음
+    // PathVariable : 이 패스에 변수가 있다!!! {reviewId}
+    // requestParam : url 사용할때 ????? ?offset=뭐&limit=뭐
+
+
     @GetMapping("/food/{foodId}/reviews")
     public ReviewDto getfoodReviews(
             @PathVariable("foodId") Long foodId,

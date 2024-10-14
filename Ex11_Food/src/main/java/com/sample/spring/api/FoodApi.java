@@ -3,6 +3,8 @@ package com.sample.spring.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,10 +41,11 @@ public class FoodApi {
 	// #######################################
 	
 	@PostMapping("/food")
-	public FoodEntity postFood(
+	public ResponseEntity<FoodEntity> postFood(
 			@RequestBody CreateAndEditFoodRequest request
 			) {
-		return foodService.createFood(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(foodService.createFood(request));
+//				foodService.createFood(request);
 //		return "postFood / name: " + request.getName() + ", address : " + request.getAddress() + ", 메뉴[0]" + request.getMenus().get(1).getName();
 	}
 	

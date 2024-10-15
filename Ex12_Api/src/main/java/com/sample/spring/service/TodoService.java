@@ -1,16 +1,21 @@
 package com.sample.spring.service;
 
+import com.sample.spring.dto.PageRequestDto;
+import com.sample.spring.dto.PageResponseDto;
 import com.sample.spring.dto.TodoDto;
 import com.sample.spring.model.TodoEntity;
+import org.springframework.data.domain.Page;
 
 public interface TodoService {
     public TodoDto get(Long tno); // Dto로 받아야될 것
 
-    public Long PostTodo(TodoDto dto);
+    public Long postTodo(TodoDto dto);
 
     public void modify(TodoDto dto);
 
     public void remove(Long tno);
+
+    public PageResponseDto<TodoDto> getList (PageRequestDto pageRequestDto);
 
     default TodoDto entityToDto(TodoEntity todo) { // entity 값이 들어오면 Dto값으로 바꿔줌
         TodoDto todoDto = TodoDto.builder()
@@ -32,4 +37,6 @@ public interface TodoService {
                 .build();
         return todoEntity;
     }
+
+
 }

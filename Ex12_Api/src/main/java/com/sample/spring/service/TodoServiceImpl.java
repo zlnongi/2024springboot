@@ -1,12 +1,17 @@
 package com.sample.spring.service;
 
+import com.sample.spring.dto.PageRequestDto;
+import com.sample.spring.dto.PageResponseDto;
 import com.sample.spring.dto.TodoDto;
 import com.sample.spring.model.TodoEntity;
 import com.sample.spring.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,7 +32,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public Long PostTodo(TodoDto dto) { // 값을 넘기는 것이므로 entity로 save해줘야됨
+    public Long postTodo(TodoDto dto) { // 값을 넘기는 것이므로 entity로 save해줘야됨
         TodoEntity todo = dtoToEntity(dto);
         TodoEntity result = todoRepository.save(todo);
 
@@ -62,5 +67,18 @@ public class TodoServiceImpl implements TodoService {
         todoRepository.deleteById(tno);
     }
 
+    @Override
+    public PageResponseDto<TodoDto> getList(PageRequestDto pageRequestDto) {
+        Page<TodoEntity> result = todoRepository.search1(pageRequestDto);
+
+        List<TodoDto> dtoList = result.get().map(todo -> entityToDto(todo)).collect(Collectors.toList());
+        PageResponseDto<TodoDto> responseDto = PageResponseDto.<TodoDto>withAll()
+                .dtoList(dtoList)
+                .pageRequestDto(pageRequestDto)
+                .total(result.getTotalElements())
+                .build();
+
+        return responseDto;
+    }
 
 }

@@ -2,11 +2,9 @@ package com.sample.spring.controller;
 
 import com.sample.spring.service.FileDataService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,5 +35,17 @@ public class FileController {
                     }
                 }).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(uploadResult);
+    }
+
+    @GetMapping("/file/{id}")
+    public ResponseEntity<?> downImage(@PathVariable ("id") Long id) throws IOException{
+        byte[] downLoadImage = fileDataService.downLoadImageFileSystem(id);
+        if(downLoadImage != null) {
+            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(downLoadImage);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+
     }
 }
